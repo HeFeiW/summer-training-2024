@@ -1,0 +1,35 @@
+name: Assignment-SE-whf-github-action
+on: [push, pull_request]
+    branches:
+      - master
+    paths:
+      - 'src/**'
+
+  
+jobs:
+  build-and-upload-exe:
+    env:
+      name: "hefeiwang"
+      email: "hefei1504@163.com"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout_actions
+        uses: actions/checkout@v2
+
+      - name: Set up C++ environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++
+        
+      - name: Build C++ code
+        run: |
+          cd src
+          files=$(find . -type f -name "*.cpp")
+          g++ -o ./my_executable $files -std=c++11 
+
+      - name: Upload executable as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-file
+          path: src/my_executable

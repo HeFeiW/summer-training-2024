@@ -1,0 +1,4 @@
+site_name: DIDADI Docs
+nav:
+  - Home: index.md
+  - QUICK START: quickstart.md

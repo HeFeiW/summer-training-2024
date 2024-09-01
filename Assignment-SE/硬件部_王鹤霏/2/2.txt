@@ -1,0 +1,31 @@
+ // thuai-7/server/src/GameServer/Geometry/CollisionDetector.cs
+ public static bool AreOnSameSide(Position a, Position b, Position[] positions)
+    {
+        double abCrossProduct = CrossProduct(a, b, positions[0]);
+        for (int i = 1; i < positions.Length; i++)
+        {
+            double currentCrossProduct = CrossProduct(a, b, positions[i]);
+            if (currentCrossProduct * abCrossProduct < 0)
+            {
+                return false; // Points are not on the same side
+            }
+        }
+        return true; // All points are on the same side
+    }
+当positions[0]恰好与ab共线时，可能无法判断positions是否跨线ab，考虑到positions不一定是以positions[0]为始点的直线，例如在CheckCross中：
+public static bool CheckCross(Position a, Position b, int i, int j)
+    {
+        Position[] positions = new Position[]
+        {
+            new Position(i, j),
+            new Position(i, j + 1),
+            new Position(i + 1, j),
+            new Position(i + 1, j + 1)
+        };
+        if (!AreOnSameSide(a, b, positions))
+        {
+            return false;
+        }
+        return true;
+    }
+
